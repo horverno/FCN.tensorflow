@@ -12,7 +12,7 @@ import scipy.io
 
 def get_model_data(dir_path, model_url):
     maybe_download_and_extract(dir_path, model_url)
-    filename = model_url.split("/")[-1]
+    filename = model_url.split("/")[-1] ##
     filepath = os.path.join(dir_path, filename)
     if not os.path.exists(filepath):
         raise IOError("VGG Model not found!")
@@ -23,7 +23,7 @@ def get_model_data(dir_path, model_url):
 def maybe_download_and_extract(dir_path, url_name, is_tarfile=False, is_zipfile=False):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-    filename = url_name.split('/')[-1]
+    filename = url_name.split('/')[-1] ##
     filepath = os.path.join(dir_path, filename)
     if not os.path.exists(filepath):
         def _progress(count, block_size, total_size):
