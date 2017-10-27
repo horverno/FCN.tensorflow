@@ -7,10 +7,12 @@ import read_MITSceneParsingData as scene_parsing
 import datetime
 import BatchDatsetReader as dataset
 from six.moves import xrange
+import matplotlib
+import matplotlib.pyplot as plt
 
 FLAGS = tf.flags.FLAGS
-tf.flags.DEFINE_integer("batch_size", "5", "batch size for training")
-tf.flags.DEFINE_string("logs_dir", "logs8\\", "path to logs directory")
+tf.flags.DEFINE_integer("batch_size", "10", "batch size for training") #5
+tf.flags.DEFINE_string("logs_dir", "logs09\\", "path to logs directory")
 tf.flags.DEFINE_string("data_dir", "Data_zoo\\MIT_SceneParsing\\", "path to dataset")
 tf.flags.DEFINE_float("learning_rate", "5e-5", "Learning rate for Adam Optimizer") #1e-4 volt
 tf.flags.DEFINE_string("model_dir", "Model_zoo\\", "Path to vgg model mat")
@@ -207,6 +209,7 @@ def main(argv=None):
                 saver.save(sess, FLAGS.logs_dir + "model.ckpt", itr)
 
     elif FLAGS.mode == "visualize":
+        print(FLAGS.logs_dir)
         valid_images, valid_annotations = validation_dataset_reader.get_random_batch(FLAGS.batch_size)
         pred = sess.run(pred_annotation, feed_dict={image: valid_images, annotation: valid_annotations,
                                                     keep_probability: 1.0})
@@ -218,7 +221,13 @@ def main(argv=None):
             utils.save_image(valid_annotations[itr].astype(np.uint8), FLAGS.logs_dir, name="gt_" + str(5+itr))
             utils.save_image(pred[itr].astype(np.uint8), FLAGS.logs_dir, name="pred_" + str(5+itr))
             print("Saved image: %d" % itr)
-
+            
+        for itr in range(FLAGS.batch_size):
+            fig, axes = plt.subplots(1, 3, figsize=(16,6))
+            axes[0].imshow(valid_images[itr].astype(np.uint8), interpolation = 'bicubic')
+            axes[1].imshow(valid_annotations[itr].astype(np.uint8))
+            axes[2].imshow(pred[itr].astype(np.uint8)) 
+            plt.show()
 
 if __name__ == "__main__":
     tf.app.run()
