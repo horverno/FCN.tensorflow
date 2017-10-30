@@ -11,9 +11,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 FLAGS = tf.flags.FLAGS
-tf.flags.DEFINE_integer("batch_size", "10", "batch size for training") #5
-tf.flags.DEFINE_string("logs_dir", "logs09\\", "path to logs directory")
-tf.flags.DEFINE_string("data_dir", "Data_zoo\\MIT_SceneParsing\\", "path to dataset")
+tf.flags.DEFINE_integer("batch_size", "5", "batch size for training")
+tf.flags.DEFINE_string("logs_dir", "logs11\\", "path to logs directory")
+tf.flags.DEFINE_string("data_dir", "Data_zoo\\Shell_Eco01\\", "path to dataset")
 tf.flags.DEFINE_float("learning_rate", "5e-5", "Learning rate for Adam Optimizer") #1e-4 volt
 tf.flags.DEFINE_string("model_dir", "Model_zoo\\", "Path to vgg model mat")
 tf.flags.DEFINE_bool('debug', "True", "Debug mode: True/ False")
