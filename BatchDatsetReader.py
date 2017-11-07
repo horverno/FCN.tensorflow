@@ -41,6 +41,14 @@ class BatchDatset:
 
     def _transform(self, filename):
         image = misc.imread(filename)
+        if image.shape[2] == 4:
+			# if an RGB + opacity image 
+            #print("Converting RGBO")
+            image = image[:, :, 0]
+        if image.shape[2] == 3:
+			# if an RGB image (this normally won't happen, if it does it may be a sign of warning)
+            print("Converting RGB (Warning): " + filename)
+            image = image[:, :, 0]
         if self.__channels and len(image.shape) < 3:  # make sure images are of shape(h,w,3)
             image = np.array([image for i in range(3)])
 
