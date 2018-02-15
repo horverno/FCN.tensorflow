@@ -15,10 +15,10 @@ The directory formats are:
           - oux
 
 * v2
-  - annotations - training
-                - validation
-  - images      - training
-                - validation
+  - annotations - training   (60%)
+                - validation (20%)
+  - images      - training   (60%)
+                - validation (20%)
 
 '''
 
@@ -41,7 +41,7 @@ from random import shuffle
 
 errorCount = 0 # nuber of errors
 ii = 0 # iteration variable
-whereToSave = "E:\\Dataset_\\"
+whereToSave = "E:\\DatasetW\\"
 sourcePath = os.path.join("Data_zoo\\Shell_Eco03\\test\\inp", "*.png") # jpg / png || test train val
 fileList = []
 fileDirs = sourcePath.split("\\")[0:-1] # file directories list # "\\".join(fileDirs)
@@ -97,13 +97,14 @@ for i in fileList:
     # format v1
     imsave(whereToSave + tvt[ii] + "out\\" + os.path.split(i)[1], misc.imresize(iOut, (290, 512))) #zoom(iOut[:, :, 0], 0.5)
     imsave(whereToSave + tvt[ii] + "oux\\" + os.path.split(i)[1], misc.imresize(iO*80, (290, 512))) #zoom(iOut[:, :, 0], 0.5)
-    imsave(whereToSave + tvt[ii] + "inp\\" + os.path.split(i)[1], misc.imresize(iInp, (290, 512))) #zoom(iOut[:, :, 0], 0.5)
+    imsave(whereToSave + tvt[ii] + "inp\\" + os.path.split(i)[1], misc.imresize(iInp[:, :, 0:3], (290, 512))) #zoom(iOut[:, :, 0], 0.5)
+    # iInp[:, :, 0:3] >> means cutting the alpha from RGBA so only RGB channels
     '''
 
     # format v2
     imsave(whereToSave + "annotations\\" + tvt[ii] + os.path.split(i)[1], misc.imresize(iO, (290, 512))) #zoom(iOut[:, :, 0], 0.5)
-    imsave(whereToSave + "images\\" + tvt[ii] + os.path.split(i)[1], misc.imresize(iInp, (290, 512))) #zoom(iOut[:, :, 0], 0.5)
-
+    imsave(whereToSave + "images\\" + tvt[ii] + os.path.split(i)[1], misc.imresize(iInp[:, :, 0:3], (290, 512))) #zoom(iOut[:, :, 0], 0.5)
+    # iInp[:, :, 0:3] >> means cutting the alpha from RGBA so only RGB channels
     print("%s\\%s" % (os.path.dirname(os.path.abspath(inspect.stack()[0][1])), i.replace("inp", "out")))
     #print(iOut.shape[2], end = " - ")
     #print(np.amax(iOut[:, :, 0]), end = " - ")
